@@ -2,6 +2,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from MultiVendor.settings import GOOGLE_API_KEY
 
+
 #MODEL
 from vendor.models import (
     Vendor,

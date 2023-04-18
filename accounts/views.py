@@ -45,7 +45,7 @@ def register_customer(request):
             instance.is_active = True
             instance.save() 
             messages.success(request, 'registered successfully!')
-            return redirect('register-customer')
+            return redirect('login')
         else:
             messages.error(request, 'check out the errors')
             print(form.errors)
@@ -74,6 +74,7 @@ def register_vendor(request):
             
             # UserProfile
             user_profile = UserProfile.objects.get(user=user_instance)
+            
             vendor_instance = vendor_form.save(commit=False)
             vendor_instance.user = user_instance
             vendor_instance.user_profile = user_profile
@@ -81,7 +82,7 @@ def register_vendor(request):
             vendor_instance.save()
 
             messages.success(request, 'successfully registered!')
-            return redirect('register-vendor')
+            return redirect('login')
         else:
             messages.error(request, 'check out the errors')
             print(user_form.errors)
