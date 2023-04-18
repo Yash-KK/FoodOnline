@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+
+{% block 'title' %}
+    Add Food Item
+{% endblock 'title' %}
+
+{% block 'content' %}
+{% include 'includes/messages.html' %}
+    
+<!-- Main Section Start -->
+<div class="main-section">
+    {% include 'includes/cover/vendor.html' %}
+    <div class="page-section account-header buyer-logged-in">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <!-- Load the sidebar here -->
+                    {% include 'includes/sidebar/vendor.html' %}
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="user-dashboard loader-holder">
+                        <div class="user-holder">
+                            <h5 class="text-uppercase">Add Food Item</h5>
+                            <hr>                                    
+                                <!-- Add Food Item Form-->
+                                <form action="{% url 'add-fooditem' %}" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-fields-set">
+                                        <ul>
+                                            <li>
+                                                <div class="row">
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="field-holder">
+                                                            <label>Food Title *</label>
+                                                            {{form.food_title}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="field-holder">
+                                                            <label>Category *</label>
+                                                            {{form.category}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="field-holder">
+                                                            <label>Description *</label>
+                                                            {{form.description}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="field-holder">
+                                                            <label>Image *</label>
+                                                            {{form.image}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="field-holder">
+                                                            <label>Price *</label>
+                                                            {{form.price}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <div class="field-holder">
+                                                            <label>Is Available *</label>
+                                                            {{form.is_available}}
+                                                        </div>
+                                                    </div>
+
+
+                                                    
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div>
+                                            <div class="field-holder">
+                                                <div class="payment-holder input-button-loader">
+                                                    <input type="submit" value="Add Food Item">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>                                   
+                                <!-- Add Food Item Form end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main Section End -->
+{% endblock 'content' %}
+
+

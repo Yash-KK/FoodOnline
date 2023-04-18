@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block 'title' %}
+    Add Category
+{% endblock 'title' %}
+
+{% block 'content' %}
+    {% include 'includes/messages.html' %}
+    
+        <!-- Main Section Start -->
+        <div class="main-section">
+            {% include 'includes/cover/vendor.html' %}
+            <div class="page-section account-header buyer-logged-in">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <!-- Load the sidebar here -->
+                            {% include 'includes/sidebar/vendor.html' %}
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                            <div class="user-dashboard loader-holder">
+                                <div class="user-holder">
+                                    <h5 class="text-uppercase">Add Category</h5>
+                                    <hr>                                    
+                                    <!-- Add Category Form-->
+                                    <form method='POST' action="{% url 'add-category' %}">
+                                        {% csrf_token %} 
+                                        {{ form }}
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                    </form>
+                                        
+                                    <!-- Add Category Form end-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Main Section End -->
+{% endblock 'content' %}
+
+
