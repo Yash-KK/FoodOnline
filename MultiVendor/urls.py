@@ -23,9 +23,14 @@ from django.conf.urls.static import static
 from .views import (
     home
 )
+from marketplace.views import (
+    cart
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-
+    path('cart/', cart, name='cart'),
+    
     path('', home, name='home'),
     path('accounts/', include('accounts.urls')),
     path('vendor/', include('vendor.urls')),
