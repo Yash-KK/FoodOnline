@@ -75,7 +75,8 @@ TEMPLATES = [
                 'MultiVendor.helper.get_vendor',
                 'MultiVendor.helper.get_user_profile',
                 "MultiVendor.helper.get_google_api_key",
-
+                'MultiVendor.helper.get_cart_count',
+                'MultiVendor.helper.get_tax_dict'
             ],
         },
     },

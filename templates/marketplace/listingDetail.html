@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block 'title' %}
-    Detail
+    {{ vendor.name }}
 {% endblock 'title' %}
 
 {% block 'content' %}
@@ -117,17 +118,20 @@
                                                                     </div>
                                                                     <div class="price-holder">
                                                                         <span class="price">₹ {{ item.price }} </span>
-                                                                        <a href="#" class="restaurant-add-menu-btn"><i style='margin-right:28px;' class="icon-minus text-color"></i></a>
+                                                                        <button  href="#" data-id="{{ item.id }}" data-url="{% url 'decrease-cart' item.id %}" class="decrease_cart"><i style='width:19px;' class="icon-minus text-color"></i></button>
                                                                         
-                                                                        <label> 0 </label>
-                                                                        <a href="#" class="restaurant-add-menu-btn"><i class="icon-plus4 text-color"></i></a>
+                                                                        <label id="qty-{{ item.id }}" style='padding-left:10px; padding-right:10px;'> 0 </label>
+                                                                        <button  href="#" data-id="{{ item.id }}" data-url="{% url 'add-to-cart' item.id %}" class="add_to_cart"><i class="icon-plus4 text-color"></i></button>
                                                                         <span id="add-menu-loader-10"></span>
                                                                     </div>
                                                                 </li>     
                                                             {% endfor %}                                                  
                                                         </ul>
                                                     {% endfor %}      
-
+												
+													{% for item in cartitems %}
+														<label class="cart_quantity" data-quantity="{{ item.quantity }}" data-foodid="{{ item.fooditem.id }}" > {{ item.quantity }} </label>
+													{% endfor %}
                                                 </div>
 											</div>
 										</div>

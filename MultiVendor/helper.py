@@ -8,6 +8,9 @@ from vendor.models import (
     Vendor,
     UserProfile
 )
+from marketplace.models import (
+    Cart
+)
 
 def my_account(request):
     if request.user.role == 1:
@@ -54,4 +57,32 @@ def get_google_api_key(request):
         }
     return {
         'GOOGLE_API_KEY': None
+    }
+
+def get_cart_count(request):
+    cart_count = 0
+    try:        
+        cart_items = Cart.objects.filter(user=request.user)
+        for item in cart_items:
+            cart_count += item.quantity
+    except:
+        cart_count = 0
+    return {
+        'get_cart_count': cart_count
+    }
+
+def get_tax_dict(request):
+    subtotal, tax, grand_total = 0,0,0
+    try:
+        cart_items = Cart.objects.filter(user=request.user)
+        for item in cart_items:
+            subtotal += (item.quantity * item.fooditem.price)
+    except:
+        subtotal, grand_total = 0,0
+    tax = (2.5/100) * subtotal
+    grand_total = subtotal + tax
+    return {
+        'subtotal': subtotal,
+        'tax': tax,
+        'grandtotal': grand_total
     }
