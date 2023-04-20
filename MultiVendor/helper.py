@@ -1,7 +1,7 @@
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from MultiVendor.settings import GOOGLE_API_KEY
-
+from decimal import Decimal
 
 #MODEL
 from vendor.models import (
@@ -9,7 +9,8 @@ from vendor.models import (
     UserProfile
 )
 from marketplace.models import (
-    Cart
+    Cart,
+    Tax
 )
 
 def my_account(request):
@@ -71,18 +72,28 @@ def get_cart_count(request):
         'get_cart_count': cart_count
     }
 
+
+
 def get_tax_dict(request):
-    subtotal, tax, grand_total = 0,0,0
+    subtotal, tax_amount ,grand_total = 0,0,0
+    tax_dict = {}
     try:
         cart_items = Cart.objects.filter(user=request.user)
         for item in cart_items:
-            subtotal += (item.quantity * item.fooditem.price)
+            subtotal += (item.quantity * Decimal(item.fooditem.price))
     except:
         subtotal, grand_total = 0,0
-    tax = (2.5/100) * subtotal
-    grand_total = subtotal + tax
+    
+    tax_instance = Tax.objects.all()
+    for i in tax_instance:
+        tax_type = i.tax_type
+        tax_percentage = i.tax_percentage
+        tax_amount = round((tax_percentage * subtotal)/100, 2)
+        tax_dict.update({tax_type: {str(tax_percentage) : str(tax_amount)}}) 
+    tax_amount = sum(float(j) for value in tax_dict.values() for j in value.values())
+
     return {
-        'subtotal': subtotal,
-        'tax': tax,
-        'grandtotal': grand_total
+        'subtotal': subtotal,        
+        'grandtotal': float(subtotal) + float(tax_amount),
+        'tax_dict': tax_dict
     }

@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import random, string
 
 
@@ -39,6 +39,27 @@ class Vendor(models.Model):
     license = models.ImageField(upload_to="Gallery/Vendor/License")
     is_approved = models.BooleanField(default=False)
 
+    def is_open(self):
+        # Check current day's opening hours.
+        today_date = date.today()
+        today = today_date.isoweekday()
+        
+        current_opening_hours = OpeningHour.objects.filter(vendor=self, day=today)
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+
+        is_open = None
+        for i in current_opening_hours:
+            if not i.is_closed:
+                start = str(datetime.strptime(i.from_hour, "%I:%M %p").time())
+                end = str(datetime.strptime(i.to_hour, "%I:%M %p").time())
+                if current_time > start and current_time < end:
+                    is_open = True
+                    break
+                else:
+                    is_open = False
+        return is_open
+    
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name) + '-' + get_random_string(4)
         super(Vendor, self).save(*args, **kwargs)
