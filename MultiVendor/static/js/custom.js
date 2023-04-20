@@ -12,6 +12,7 @@ autocomplete = new google.maps.places.Autocomplete(
 autocomplete.addListener('place_changed', onPlaceChanged);
 }
 
+
 function onPlaceChanged (){
     var place = autocomplete.getPlace();    
 
@@ -75,7 +76,7 @@ $(document).ready(function(){
                 } else{                    
                     
                     // Update tax data
-                    updateTax(response);                   
+                    updateTax(response);                  
 
                     // Update the item quantity
                     let quantity = response.quantity;
@@ -183,13 +184,16 @@ $(document).ready(function(){
     });
 
     function updateTax(response){
-        subtotal = response.tax_data['subtotal'];
-        tax = response.tax_data['tax'];
         grandtotal = response.tax_data['grandtotal'];
+        subtotal = response.tax_data['subtotal'];
+        
+        CGST = response.tax_data.tax_dict['CGST']['2.25'];
+        SGST = response.tax_data.tax_dict['SGST']['2.25'];                
 
-        $("#subtotal").html(subtotal);
-        $("#tax").html(tax);
         $("#grandtotal").html(grandtotal);
+        $("#subtotal").html(subtotal);
+        $("#tax-CGST").html(CGST);
+        $("#tax-SGST").html(SGST);
     }
 
    

@@ -1,14 +1,17 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from datetime import date
 
 from MultiVendor.helper import (
     get_cart_count,
     get_tax_dict
 )
+
 #MODEL
 from vendor.models import (
-    Vendor
+    Vendor,
+    OpeningHour
 )
 from menu.models import (
     Category,
@@ -22,6 +25,7 @@ from .models import (
 def marketplace(request):
     vendors = Vendor.objects.filter(is_approved=True)
     vendor_count = vendors.count()
+
     context = {
         'vendors': vendors,
         'vendor_count': vendor_count
@@ -32,6 +36,16 @@ def listing_detail(request, vendor_slug):
     vendor = Vendor.objects.get(slug=vendor_slug)
 
     try:
+        opening_hours = OpeningHour.objects.filter(vendor=vendor)
+
+        # Check current day's opening hours.
+        today_date = date.today()
+        today = today_date.isoweekday()        
+        current_opening_hours = OpeningHour.objects.filter(vendor=vendor, day=today)
+    except:
+        opening_hours = None
+
+    try:
         cartitems = Cart.objects.filter(user=request.user)
     except:
         cartitems = None
@@ -39,7 +53,9 @@ def listing_detail(request, vendor_slug):
     context = {
         'vendor': vendor,
         'categories': categories,        
-        'cartitems': cartitems
+        'cartitems': cartitems,
+        'opening_hours': opening_hours,
+        'current_opening_hours': current_opening_hours
     }
     return render(request, 'marketplace/listingDetail.html', context)
 
@@ -59,6 +75,7 @@ def add_to_cart(request, food_id):
                         'cart_count': get_cart_count(request)['get_cart_count'],
                         'quantity': cartitem.quantity,
                         'tax_data': get_tax_dict(request)
+                        
                     })
                 except:
                     cartitem = Cart.objects.create(fooditem=fooditem, quantity=1, user=request.user)
@@ -68,6 +85,7 @@ def add_to_cart(request, food_id):
                         'cart_count': get_cart_count(request)['get_cart_count'],
                         'quantity': 1,
                         'tax_data': get_tax_dict(request)
+                       
                     })
             except FoodItem.DoesNotExist:
                 messages.error(request, 'Food Item does not exist!')
@@ -98,6 +116,7 @@ def decrease_cart(request, food_id):
                             'cart_count': get_cart_count(request)['get_cart_count'],
                             'quantity': 0,
                             'tax_data': get_tax_dict(request)
+                            
                         })
                     else:
                         cartitem.quantity -=1
@@ -107,6 +126,7 @@ def decrease_cart(request, food_id):
                             'cart_count': get_cart_count(request)['get_cart_count'],
                             'quantity': cartitem.quantity,
                             'tax_data': get_tax_dict(request)
+                         
                         })
                 except:
                     return JsonResponse({
@@ -146,6 +166,7 @@ def delete_cart(request, cart_id):
                     'cart_count': get_cart_count(request)['get_cart_count'],
                     'cart_id': cart_id,
                     'tax_data': get_tax_dict(request)
+                   
                 })
             except:
                 pass
