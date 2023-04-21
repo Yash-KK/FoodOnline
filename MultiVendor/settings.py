@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'accounts',
     'vendor',
     'menu',
-    'marketplace'
+    'marketplace',
+    'customer',
+    'orders'
 ]
 
 MIDDLEWARE = [
@@ -160,3 +162,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 GOOGLE_API_KEY = config('GOOGLE_API_KEY')
+RAZORPAY_KEY_ID = 'rzp_test_xTFbV0Xh1ct78q'
+RAZORPAY_KEY_SECRET = 'USg3wF0cQdKHmQSiVggWwkIe'

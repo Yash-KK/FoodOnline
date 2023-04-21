@@ -47,3 +47,8 @@ class UserProfileForm(forms.ModelForm):
         if instance and instance.pk:
             self.fields['latitude'].widget.attrs['readonly'] = True
             self.fields['longitude'].widget.attrs['readonly'] = True
+
+class ProfileSettingUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'phone_number']

@@ -21,6 +21,10 @@ from MultiVendor.helper import (
 from accounts.models import (
     UserProfile
 )
+from orders.models import (
+    Order
+)
+
 #FORMS
 from .forms import (
     UserForm
@@ -120,7 +124,15 @@ def login_user(request):
 @login_required(login_url='login')
 @user_passes_test(check_if_customer)
 def customer_dashboard(request):
-    return render(request, 'accounts/dashboard/customer.html')
+    orders = Order.objects.filter(user=request.user, is_ordered=True)
+    orders_count = orders.count()
+    recent_orders = orders[:5]
+    context = {
+        'orders_count': orders_count,
+        'recent_orders': recent_orders
+    }
+    return render(request, 'accounts/dashboard/customer.html', context)
+
 
 @login_required(login_url='login')
 @user_passes_test(check_if_vendor)

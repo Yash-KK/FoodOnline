@@ -35,7 +35,9 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('vendor/', include('vendor.urls')),
     path('menu/', include('menu.urls')),
-    path('marketplace/', include('marketplace.urls'))
+    path('marketplace/', include('marketplace.urls')),
+    path('customer/', include('customer.urls')),
+    path('order/', include('orders.urls'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
