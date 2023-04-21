@@ -177,3 +177,5 @@ def delete_cart(request, cart_id):
         return JsonResponse({
             'login_required': "Please Login to continue!"
         })
+    
+
