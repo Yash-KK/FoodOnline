@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -21,6 +21,10 @@ from accounts.forms import (
 #MODEL
 from .models import (
     OpeningHour
+)
+from orders.models import (
+    Order,
+    OrderedFood
 )
 
 # Create your views here.
@@ -102,3 +106,16 @@ def remove_opening_hour(request, hour_id):
         return JsonResponse({
             'error': "Not an Ajax Request"
         })
+
+
+def order_detail(request, order_number):   
+    order = Order.objects.get(order_number=order_number)
+    ordered_food = OrderedFood.objects.filter(order=order, fooditem__vendor = get_vendor(request)['get_vendor'])
+    context = {
+            'order': order,
+            'ordered_food': ordered_food,
+            'subtotal': order.get_total_by_vendor()['subtotal'],
+            'tax_data': order.get_total_by_vendor()['tax_dict'],
+            'grand_total': order.get_total_by_vendor()['grand_total'],
+        }
+    return render(request, 'vendor/orderDetail.html', context)

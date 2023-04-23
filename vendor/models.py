@@ -83,7 +83,7 @@ class OpeningHour(models.Model):
         verbose_name_plural = "Opening Hour's"
         
         ordering = ('day',)
-        unique_together = ('day', 'from_hour', 'to_hour')
+        unique_together = ( 'vendor', 'day', 'from_hour', 'to_hour')
     def __str__(self):
         return f"{self.get_day_display()}"
     

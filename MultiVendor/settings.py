@@ -15,10 +15,9 @@ import os
 from decouple import config
 
 from django.contrib.messages import constants as messages
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -50,6 +49,9 @@ INSTALLED_APPS = [
     'orders'
 ]
 
+
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'orders.customMid.simple_middleware'
 ]
 
 ROOT_URLCONF = 'MultiVendor.urls'
@@ -98,6 +101,8 @@ DATABASES = {
         },
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -159,7 +164,6 @@ MESSAGE_TAGS = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID')

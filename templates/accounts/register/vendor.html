@@ -90,7 +90,7 @@
                                         <li>
                                             <!--Form errors-->
                                                 <ul class="errorlist">
-                                                    {% for field in form %}
+                                                    {% for field in user_form %}
                                                         {% if field.errors %}
                                                             {% for error in field.errors %}
                                                                 <li style="color: red;">{{error}}</li>
@@ -98,7 +98,17 @@
                                                         {% endif %}
                                                     {% endfor %}
             
-                                                    <li style="color: red;">{{form.non_field_errors}}</li>
+                                                    <li style="color: red;">{{user_form.non_field_errors}}</li>
+
+                                                    {% for field in vendor_form %}
+                                                        {% if field.errors %}
+                                                            {% for error in field.errors %}
+                                                                <li style="color: red;">{{error}}</li>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+            
+                                                    <li style="color: red;">{{vendor_form.non_field_errors}}</li>
                                                 </ul>
                                             <!--Form errors end-->
                                             <div class="row">

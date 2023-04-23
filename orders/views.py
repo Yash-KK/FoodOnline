@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from datetime import date
+from decimal import Decimal
+
 import json, razorpay
 
 from MultiVendor.settings import (
@@ -24,7 +26,11 @@ from .forms import (
 
 #MODEL
 from marketplace.models import (
-    Cart
+    Cart,
+    Tax
+)
+from menu.models import (
+    FoodItem
 )
 from orders.models import (
     Order,
@@ -64,9 +70,40 @@ def place_order(request):
         messages.info(request, 'you have no cart items')
         return redirect('marketplace')
     
-    tax_dict = get_tax_dict(request)['tax_dict']
+    vendor_ids = []
+    for item in cart_items:
+        if not item.fooditem.vendor.id in vendor_ids:
+            vendor_ids.append(item.fooditem.vendor.id)
+        
+    get_tax = Tax.objects.filter(is_active=True)
+    subtotal = 0
+    total_data = {}
+    k = {}
+    for i in cart_items:
+        fooditem = FoodItem.objects.get(pk=i.fooditem.id, vendor_id__in=vendor_ids)
+        v_id = fooditem.vendor.id
+        if v_id in k:
+            subtotal = k[v_id]
+            subtotal += (fooditem.price * i.quantity)
+            k[v_id] = subtotal
+        else:
+            subtotal = (fooditem.price * i.quantity)
+            k[v_id] = subtotal
+    
+        # Calculate the tax_data
+        tax_dict = {}
+        for i in get_tax:
+            tax_type = i.tax_type
+            tax_percentage = i.tax_percentage
+            tax_amount = round((Decimal(str(tax_percentage)) * Decimal(str(subtotal))) / Decimal(100), 2)
+            tax_dict.update({tax_type: {str(tax_percentage) : str(tax_amount)}}) 
+        # Construct total data
+        total_data.update({fooditem.vendor.id: {str(subtotal): str(tax_dict)}})
+
+    tax_data = get_tax_dict(request)['tax_dict']
     tax_amount = sum(float(j) for value in tax_dict.values() for j in value.values())
 
+    
 
     today = date.today()
     if request.method == 'POST':        
@@ -80,15 +117,16 @@ def place_order(request):
         order.state = request.POST['state']
         order.city = request.POST['city']
         order.pin_code = request.POST['pin_code']
-        order.payment_method = request.POST['payment_method']
-
+        order.payment_method = request.POST['payment_method']        
         order.user = request.user
         order.total = get_tax_dict(request)['grandtotal']
-        order.tax_data = json.dumps(tax_dict)
+        order.tax_data = json.dumps(tax_data)
+        order.total_data = json.dumps(total_data)
         order.total_tax = tax_amount
         order.save()
 
         order.order_number = today.strftime('%Y-%m-%d') + '-' + str(order.id)
+        order.vendors.add(*vendor_ids)
         order.save()
 
         DATA = {
@@ -168,7 +206,7 @@ def order_complete(request):
     ordered_food = OrderedFood.objects.filter(order=order)
 
     context = {
-        'order': order,
+        'order': order, 
         'ordered_food': ordered_food,
         'tax_data': tax_data,
         'subtotal': subtotal

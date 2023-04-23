@@ -25,7 +25,8 @@
                                 {% comment %} <button class="btn btn-secondary" onclick="history.back()"><i class="fa fa-angle-left" aria-hidden="true"></i> Back</button> {% endcomment %}
                                 <br><br>
                                 <h6>Category: <span class="text-uppercase text-success">{{category.name}}</span></h6>
-                                
+                                <a href="{% url 'add-fooditem' %}" class="btn btn-success float-right m-1"><i class="fa fa-plus" aria-hidden="true"></i> Add Food</a>
+
 
                                 {% if fooditems %}
                                     <table class="table table-hover table-borderless">

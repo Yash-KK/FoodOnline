@@ -1,6 +1,8 @@
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.contrib import messages
+import datetime
+
 from django.contrib.auth.decorators import (
     login_required,
     user_passes_test
@@ -14,7 +16,8 @@ from django.contrib.auth import (
 #HELPER
 from MultiVendor.helper import (
     check_if_customer,
-    check_if_vendor
+    check_if_vendor,
+    get_vendor
 )
 
 #MODEL
@@ -90,7 +93,7 @@ def register_vendor(request):
         else:
             messages.error(request, 'check out the errors')
             print(user_form.errors)
-            print(vendor_form.errors)
+            print(vendor_form.errors) 
     else:
         user_form = UserForm()
         vendor_form = VendorForm()
@@ -137,7 +140,30 @@ def customer_dashboard(request):
 @login_required(login_url='login')
 @user_passes_test(check_if_vendor)
 def vendor_dashboard(request):
-    return render(request, 'accounts/dashboard/vendor.html')
+    vendor = get_vendor(request)['get_vendor']
+    orders = Order.objects.filter(vendors__in=[vendor.id])
+
+    current_month = datetime.datetime.now().month
+    current_month_orders = orders.filter(vendors__in=[vendor.id], created_at__month=current_month)
+    current_month_revenue = 0
+    for i in current_month_orders:
+        current_month_revenue += i.get_total_by_vendor()['grand_total']
+    
+
+    # total revenue
+    total_revenue = 0
+    for i in orders:
+        total_revenue += i.get_total_by_vendor()['grand_total']
+    context = {
+        'orders_count': orders.count(),
+        'recent_orders': orders[0:5],
+        'current_month_revenue':current_month_revenue,
+        'total_revenue':total_revenue
+        
+
+    }
+    return render(request, 'accounts/dashboard/vendor.html', context)
+
 
 def logout_user(request):
     logout(request)
