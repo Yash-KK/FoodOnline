@@ -21,7 +21,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import (
-    home
+    home,
+    search
 )
 from marketplace.views import (
     cart
@@ -32,6 +33,7 @@ urlpatterns = [
     path('cart/', cart, name='cart'),
     
     path('', home, name='home'),
+    path('search/', search, name='search'),
     path('accounts/', include('accounts.urls')),
     path('vendor/', include('vendor.urls')),
     path('menu/', include('menu.urls')),
