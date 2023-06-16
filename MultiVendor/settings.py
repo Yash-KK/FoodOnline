@@ -30,7 +30,6 @@ DEBUG = config('DEBUG',cast=bool)
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -94,15 +93,15 @@ WSGI_APPLICATION = 'MultiVendor.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": config('ENGINE'),
-        "OPTIONS": {
-            "read_default_file": config('FILEPATH'),
-        },
+    'default': {
+        'ENGINE': config('ENGINE'),
+        'NAME': config('NAME'), 
+        'USER': 'postgres',
+        'PASSWORD': config('PASSWORD'),
+        'HOST': config('HOST'), 
+        'PORT': config('PORT'),
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -151,7 +150,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
-
 # MESSAGES FRAMEWORK
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
@@ -160,6 +158,7 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

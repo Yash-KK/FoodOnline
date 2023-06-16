@@ -24,3 +24,4 @@ urlpatterns = [
     path('update-food-item/<slug:fooditem_slug>/', update_fooditem, name='update-fooditem'),
     path('add-food-item/<slug:fooditem_slug>/', delete_fooditem, name='delete-fooditem')
 ]
+ 

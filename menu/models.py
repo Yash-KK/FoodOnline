@@ -47,6 +47,7 @@ class Category(TimeStamp):
     def __str__(self):
         return f'{self.name}'
 
+
 class FoodItem(TimeStamp):
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, related_name='fooditems')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='fooditems')

@@ -3,7 +3,7 @@
         <ul>
             <li class="{% if 'vendor-dashboard' in request.path %} active {% endif %}"><a href="{% url 'vendor-dashboard' %}"><i class="icon-dashboard3"></i>Dashboard</a></li>
             <li class="{% if 'my-restaurant' in request.path %} active {% endif %}"><a href="{% url 'my-restaurant' %}"><i class="icon-building"></i>My Restaurant</a></li>
-            <li class="{% if 'menu-builder' in request.path or 'items-by-category' in request.path or 'add' in request.path %} active {% endif %}">
+            <li class="{% if 'menu-builder' in request.path or 'items-by-category' in request.path or 'add' in request.path or 'update-food-item' in request.path %} active {% endif %}">
                 <a href="{% url 'menu-builder' %}"><i class="icon-menu5"></i>Menu Builder</a>
             </li>
             <li class="{% if 'opening-hour' in request.path %} active {% endif %}"><a href="{% url 'opening-hour' %}"><i class="icon-time"></i>Opening Hour</a></li>

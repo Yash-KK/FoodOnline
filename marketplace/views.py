@@ -59,7 +59,7 @@ def listing_detail(request, vendor_slug):
     }
     return render(request, 'marketplace/listingDetail.html', context)
 
-
+  
 
 def add_to_cart(request, food_id):    
     if request.user.is_authenticated:
