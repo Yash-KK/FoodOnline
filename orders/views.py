@@ -193,6 +193,7 @@ def payments(request):
             'trans_id': trans_id,
             'order_number': order_number
         })
+
 def order_complete(request):    
     order_number = request.GET['order_no']
     trans_id = request.GET['trans_id']

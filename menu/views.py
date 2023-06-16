@@ -25,7 +25,7 @@ def menu_builder(request):
     categories = Category.objects.filter(vendor=vendor)
     context = {
         'categories': categories
-    }
+    } 
     return render(request, 'menu/menuBuilder.html', context)
  
 @login_required(login_url='login')
@@ -54,7 +54,6 @@ def add_category(request):
             messages.error(request, 'checkout errors')
             print(form.errors)
 
-
     else:
         form = CategoryForm()
     context = {
@@ -82,7 +81,7 @@ def update_category(request, category_slug):
         'category': category
     }
     return render(request, 'menu/category/update.html', context)
-
+ 
 @login_required(login_url='login')
 def delete_category(request, category_slug):
     category = Category.objects.get(slug=category_slug)

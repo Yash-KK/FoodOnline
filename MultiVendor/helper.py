@@ -92,6 +92,7 @@ def get_tax_dict(request):
         tax_dict.update({tax_type: {str(tax_percentage) : str(tax_amount)}}) 
     tax_amount = sum(float(j) for value in tax_dict.values() for j in value.values())
 
+
     return {
         'subtotal': subtotal,        
         'grandtotal': float(subtotal) + float(tax_amount),
