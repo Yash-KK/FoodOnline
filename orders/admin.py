@@ -11,6 +11,7 @@ from .models import (
 
 class OrderedFoodInline(admin.TabularInline):
     model = OrderedFood
+    readonly_fields = ['fooditem', 'quantity', 'price', 'amount']
     extra = 0
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['order_number', 'payment','payment_method', 'status', 'all_vendors','is_ordered']
