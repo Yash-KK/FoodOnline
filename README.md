@@ -58,7 +58,7 @@ https://github.com/Yash-KK/FoodOnline.git
  <strong> Create and activate a Virtual Envionment: </strong> <br>
 ```
  virtualenv env
- source venv/bin/activate
+ source env/bin/activate
 ```
 
  <strong> Install Dependencies: </strong> <br>
