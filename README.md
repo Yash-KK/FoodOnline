@@ -14,7 +14,7 @@ The platform provides a convenient way for customers to explore different vendor
   <li> <strong> Vendor Profiles: </strong> <br>Each vendor has a dedicated profile page that showcases their business information and menu. Users can view detailed   information about the vendor, helping them make informed choices.
   </li> <br>
   
-  <li> <strong> Online Ordering: </strong> <br>Users can add desired food items to their cart, customize their orders (if supported), and proceed to the checkout       process. 
+  <li> <strong> Online Ordering: </strong> <br>Users can add desired food items to their cart, customize their orders and proceed to the checkout       process. 
   </li> <br>
   
   <li> <strong>Secure Payments:  </strong> <br> The platform integrates with the Razorpay payment gateway to provide secure online payment options. Customers can   make payments using various methods, such as credit/debit cards, net banking, or digital wallets.
